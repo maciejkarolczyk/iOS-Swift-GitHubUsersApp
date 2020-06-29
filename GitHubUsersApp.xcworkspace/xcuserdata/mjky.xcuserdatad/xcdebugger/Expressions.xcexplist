@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "closure #1 in static ConnectionManager.requestUserDetails(userName:_:failure:):ConnectionManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "UserSplitViewController.splitViewController(_:collapseSecondary:onto:):UserSplitViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.isCollapsed">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "UserSplitViewController.awakeFromNib():UserSplitViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.isCollapsed">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in static ConnectionManager.requestUsers(query:_:failure:):ConnectionManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "UsersListController.tableView(_:numberOfRowsInSection:):UsersListController.swift">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
