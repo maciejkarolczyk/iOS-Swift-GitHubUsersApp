@@ -56,11 +56,11 @@ class UsersListController:UIViewController {
                 currentQuery = query
                 currentPage = 1
                 activityIndicator.startAnimating()
-                ConnectionManager.requestUsers(query: query, { response in
+                ServiceManager.requestUsers(query: query, { response in
                     self.dataSource = response
                     if let firstUser = self.dataSource?.users.first {
                         //download details for first user
-                        ConnectionManager.requestUserDetails(userName: firstUser.name, { response in
+                        ServiceManager.requestUserDetails(userName: firstUser.name, { response in
                             self.delegate?.userSelected(response)
                             self.stopActivityIndicator()
                         }, failure: { errorResponse in
@@ -81,7 +81,7 @@ class UsersListController:UIViewController {
     }
     
     func loadMore() {
-        ConnectionManager.requestUsers(query: currentQuery, page:currentPage + 1, { response in
+        ServiceManager.requestUsers(query: currentQuery, page:currentPage + 1, { response in
             self.dataSource?.users.append(contentsOf: response.users)
         }, failure: { errorResponse in
             Utils.displayAlert(errorResponse.description, vc:self)
@@ -124,7 +124,7 @@ extension UsersListController:UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedUser = dataSource?.users[indexPath.row]
         if let detailsViewController = delegate as? DetailsViewController, let detailNavigationController = detailsViewController.navigationController {
-            ConnectionManager.requestUserDetails(userName: selectedUser?.name, { response in
+            ServiceManager.requestUserDetails(userName: selectedUser?.name, { response in
                 self.delegate?.userSelected(response)
                 DispatchQueue.main.async {
                     self.splitViewController?.showDetailViewController(detailNavigationController, sender: nil)

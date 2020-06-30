@@ -2,7 +2,7 @@ import Foundation
 import Alamofire
 import RealmSwift
 
-class ConnectionManager {
+class ServiceManager {
     
     static func requestUsers(query:String?, page:Int = 1, _ completion: @escaping (UsersModel) -> Void, failure: @escaping (String) -> Void) {
         //wrong practice. Apple discourages from checking connectivity before request. Instead, one should
