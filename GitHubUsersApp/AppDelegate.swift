@@ -10,12 +10,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let config = Realm.Configuration(objectTypes: [UserDetails.self])
         let realm = try! Realm(configuration: config)
         let folderPath = realm.configuration.fileURL!.deletingLastPathComponent().path
-        try! FileManager.default.setAttributes([FileAttributeKey(rawValue: FileAttributeKey.protectionKey.rawValue): FileProtectionType.none],
-                                               ofItemAtPath: folderPath)
-        
-        
+        try! FileManager.default.setAttributes([FileAttributeKey(rawValue: FileAttributeKey.protectionKey.rawValue): FileProtectionType.none], ofItemAtPath: folderPath)
         return true
-        
     }
 
     // MARK: UISceneSession Lifecycle
