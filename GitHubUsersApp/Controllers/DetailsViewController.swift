@@ -5,7 +5,8 @@ import RealmSwift
 
 class DetailsViewController: UIViewController {
     
-    @IBOutlet weak var welcomeView: UIView!
+    @IBOutlet weak var maskView: UIView!
+    @IBOutlet weak var maskViewLabel: UILabel!
     
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -34,7 +35,7 @@ class DetailsViewController: UIViewController {
         self.title = "gitHub User Details"
         activityIndicator.hidesWhenStopped = true
     }
-
+    
     func refreshUI(dataModel:UserDetails) {
         DispatchQueue.main.async {
             self.loadViewIfNeeded()
@@ -63,39 +64,49 @@ class DetailsViewController: UIViewController {
     }
     
     private func getModel() {
-        changeActivityIndicator(isHidden: false)
+        setLoadingView(isLoading: true, isWelcome: false)
         if let userLogin = self.userLogin {
             ServiceManager.sharedInstance.requestUserDetails(userName: userLogin, { reference in
-                self.welcomeView(isHidden: true)
                 DispatchQueue.main.async {
                     let realm = try! Realm()
                     if let model = realm.resolve(reference) {
                         self.refreshUI(dataModel: model)
                     }
                 }
-                self.changeActivityIndicator(isHidden: true)
+                self.setLoadingView(isLoading: false, isWelcome: false)
             }, failure: { errorResponse in
-                self.changeActivityIndicator(isHidden: true)
-                self.welcomeView(isHidden: false)
+                self.setLoadingView(isLoading: false, isWelcome: true)
                 Utils.displayAlert(errorResponse, vc: self)
             })
         } else {
-            welcomeView(isHidden: false)
+            setLoadingView(isLoading: false, isWelcome: true)
         }
     }
     
-    func welcomeView(isHidden:Bool) {
-        DispatchQueue.main.async {
-            self.welcomeView.isHidden = isHidden
+    func setLoadingView(isLoading:Bool, isWelcome:Bool) {
+        if let maskViewLabel = self.maskViewLabel {
+            DispatchQueue.main.async {
+                let hidden = (!isLoading && !isWelcome)
+                let hiddenSpinner = (!isLoading && isWelcome)
+                self.setMaskView(isHidden: hidden)
+                self.changeActivityIndicator(isHidden: hiddenSpinner)
+                maskViewLabel.text = isLoading ? "Loading" : "Search for gitHub Users from left panel"
+            }
+        }
+    }
+    
+    func setMaskView(isHidden:Bool) {
+        if let welcomeView = self.maskView {
+            welcomeView.isHidden = isHidden
         }
     }
     
     func changeActivityIndicator(isHidden:Bool) {
-        DispatchQueue.main.async {
+        if let indicator = self.activityIndicator {
             if isHidden == true {
-                self.activityIndicator.stopAnimating()
+                indicator.stopAnimating()
             } else {
-                self.activityIndicator.startAnimating()
+                indicator.startAnimating()
             }
         }
     }

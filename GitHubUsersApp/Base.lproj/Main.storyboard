@@ -278,6 +278,10 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="d4d-ZR-ayS">
+                                        <rect key="frame" x="197" y="377" width="20" height="20"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -285,9 +289,6 @@
                                     <constraint firstItem="ILt-0T-vqX" firstAttribute="centerY" secondItem="hHH-ue-2uG" secondAttribute="centerY" multiplier="0.8" id="dr8-lw-aIf"/>
                                 </constraints>
                             </view>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="d4d-ZR-ayS">
-                                <rect key="frame" x="197" y="465" width="20" height="20"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -301,8 +302,6 @@
                             <constraint firstItem="0Uh-zu-0Rj" firstAttribute="bottom" secondItem="JUH-36-sER" secondAttribute="bottom" id="Lif-hB-u0G"/>
                             <constraint firstItem="kjY-Z4-EoI" firstAttribute="centerX" secondItem="JUH-36-sER" secondAttribute="centerX" id="btH-Od-nOz"/>
                             <constraint firstAttribute="trailing" secondItem="0Uh-zu-0Rj" secondAttribute="trailing" constant="10" id="dy0-TS-Z0p"/>
-                            <constraint firstItem="d4d-ZR-ayS" firstAttribute="centerY" secondItem="JUH-36-sER" secondAttribute="centerY" id="kyK-cB-7XF"/>
-                            <constraint firstItem="d4d-ZR-ayS" firstAttribute="centerX" secondItem="JUH-36-sER" secondAttribute="centerX" id="pDA-LR-Tcd"/>
                             <constraint firstItem="hHH-ue-2uG" firstAttribute="leading" secondItem="JUH-36-sER" secondAttribute="leading" id="pEu-v4-1eO"/>
                             <constraint firstItem="0Uh-zu-0Rj" firstAttribute="leading" secondItem="7Np-yV-ghI" secondAttribute="leading" constant="10" id="sj9-Uv-oid"/>
                             <constraint firstItem="ekq-Lw-ijb" firstAttribute="centerX" secondItem="JUH-36-sER" secondAttribute="centerX" id="ymZ-hv-Pvj"/>
@@ -319,10 +318,11 @@
                         <outlet property="followersLabel" destination="Koc-4c-WzA" id="9I2-5J-Tub"/>
                         <outlet property="idLabel" destination="byg-s2-jGR" id="zIJ-zu-aMY"/>
                         <outlet property="locationLabel" destination="4Lt-Go-P8c" id="H2N-BI-aIY"/>
+                        <outlet property="maskView" destination="hHH-ue-2uG" id="V9B-Tk-P2c"/>
+                        <outlet property="maskViewLabel" destination="ILt-0T-vqX" id="BzT-Xe-JBW"/>
                         <outlet property="repositoriesLabel" destination="tTC-Ah-bwy" id="TWn-cf-555"/>
                         <outlet property="userNameLabel" destination="ekq-Lw-ijb" id="njr-4G-9mv"/>
                         <outlet property="webPageLabel" destination="KQM-CY-o7Q" id="tlR-hs-UfR"/>
-                        <outlet property="welcomeView" destination="hHH-ue-2uG" id="V9B-Tk-P2c"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="agv-7D-D1M" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
