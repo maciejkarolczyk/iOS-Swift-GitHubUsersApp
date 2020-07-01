@@ -273,20 +273,21 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search for gitHub Users from left panel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ILt-0T-vqX">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                                        <rect key="frame" x="57.5" y="299.5" width="299" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="ILt-0T-vqX" firstAttribute="leading" secondItem="hHH-ue-2uG" secondAttribute="leading" id="6kf-2H-C7P"/>
-                                    <constraint firstAttribute="trailing" secondItem="ILt-0T-vqX" secondAttribute="trailing" id="G70-rH-Xmt"/>
-                                    <constraint firstItem="ILt-0T-vqX" firstAttribute="top" secondItem="hHH-ue-2uG" secondAttribute="top" id="GdQ-XO-wfm"/>
-                                    <constraint firstAttribute="bottom" secondItem="ILt-0T-vqX" secondAttribute="bottom" id="JWu-Yf-UpO"/>
+                                    <constraint firstItem="ILt-0T-vqX" firstAttribute="centerX" secondItem="hHH-ue-2uG" secondAttribute="centerX" id="SE3-Af-tJ0"/>
+                                    <constraint firstItem="ILt-0T-vqX" firstAttribute="centerY" secondItem="hHH-ue-2uG" secondAttribute="centerY" multiplier="0.8" id="dr8-lw-aIf"/>
                                 </constraints>
                             </view>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="d4d-ZR-ayS">
+                                <rect key="frame" x="197" y="465" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -300,6 +301,8 @@
                             <constraint firstItem="0Uh-zu-0Rj" firstAttribute="bottom" secondItem="JUH-36-sER" secondAttribute="bottom" id="Lif-hB-u0G"/>
                             <constraint firstItem="kjY-Z4-EoI" firstAttribute="centerX" secondItem="JUH-36-sER" secondAttribute="centerX" id="btH-Od-nOz"/>
                             <constraint firstAttribute="trailing" secondItem="0Uh-zu-0Rj" secondAttribute="trailing" constant="10" id="dy0-TS-Z0p"/>
+                            <constraint firstItem="d4d-ZR-ayS" firstAttribute="centerY" secondItem="JUH-36-sER" secondAttribute="centerY" id="kyK-cB-7XF"/>
+                            <constraint firstItem="d4d-ZR-ayS" firstAttribute="centerX" secondItem="JUH-36-sER" secondAttribute="centerX" id="pDA-LR-Tcd"/>
                             <constraint firstItem="hHH-ue-2uG" firstAttribute="leading" secondItem="JUH-36-sER" secondAttribute="leading" id="pEu-v4-1eO"/>
                             <constraint firstItem="0Uh-zu-0Rj" firstAttribute="leading" secondItem="7Np-yV-ghI" secondAttribute="leading" constant="10" id="sj9-Uv-oid"/>
                             <constraint firstItem="ekq-Lw-ijb" firstAttribute="centerX" secondItem="JUH-36-sER" secondAttribute="centerX" id="ymZ-hv-Pvj"/>
@@ -308,6 +311,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="VU4-D7-25G"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="d4d-ZR-ayS" id="zJu-dz-s8f"/>
                         <outlet property="avatarImageView" destination="kjY-Z4-EoI" id="pKh-xh-72U"/>
                         <outlet property="companyLabel" destination="EU6-Hb-IY9" id="6Pd-lJ-XGA"/>
                         <outlet property="creationDateLabel" destination="5V9-aw-nKf" id="Luk-q4-HGK"/>
@@ -416,7 +420,7 @@
                                 <rect key="frame" x="0.0" y="122" width="414" height="740"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search for gitHub users using top searchbar" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uhu-JZ-I5h">
-                                        <rect key="frame" x="29" y="359.5" width="356.5" height="21.5"/>
+                                        <rect key="frame" x="29" y="285.5" width="356.5" height="21.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -424,7 +428,7 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstItem="uhu-JZ-I5h" firstAttribute="centerY" secondItem="xzh-7O-DFK" secondAttribute="centerY" id="TGt-Nv-D4d"/>
+                                    <constraint firstItem="uhu-JZ-I5h" firstAttribute="centerY" secondItem="xzh-7O-DFK" secondAttribute="centerY" multiplier="0.8" id="TGt-Nv-D4d"/>
                                     <constraint firstItem="uhu-JZ-I5h" firstAttribute="centerX" secondItem="xzh-7O-DFK" secondAttribute="centerX" id="vJr-cL-dh4"/>
                                 </constraints>
                             </view>

@@ -1,4 +1,5 @@
 import UIKit
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -6,8 +7,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        let config = Realm.Configuration(objectTypes: [UserDetails.self])
+        let realm = try! Realm(configuration: config)
+        let folderPath = realm.configuration.fileURL!.deletingLastPathComponent().path
+        try! FileManager.default.setAttributes([FileAttributeKey(rawValue: FileAttributeKey.protectionKey.rawValue): FileProtectionType.none],
+                                               ofItemAtPath: folderPath)
+        
+        
         return true
+        
     }
 
     // MARK: UISceneSession Lifecycle

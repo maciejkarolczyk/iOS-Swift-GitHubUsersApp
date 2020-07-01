@@ -1,21 +1,27 @@
 import Foundation
 import RealmSwift
 
-class UserDetails:Object, Decodable {
-    let id: Int
-    let avatarUrl : String?
-    let htmlUrl : String?
-    let type : String?
-    let name : String?
-    let company : String?
-    let location : String?
-    let email : String?
-    let publicReposCount : Int?
-    let followersCount : Int?
-    let creationDate : Date?
+class UserDetails:Object, Decodable{
+    @objc dynamic var id: Int = 0
+    @objc dynamic var login : String? = ""
+    @objc dynamic var avatarUrl : String? = ""
+    @objc dynamic var htmlUrl : String? = ""
+    @objc dynamic var type : String? = ""
+    @objc dynamic var name : String? = ""
+    @objc dynamic var company : String? = ""
+    @objc dynamic var location : String? = ""
+    @objc dynamic var email : String? = ""
+    @objc dynamic var publicReposCount : Int = 0
+    @objc dynamic var followersCount : Int = 0
+    @objc dynamic var creationDate : Date? = nil
+    
+    override static func primaryKey() -> String? {
+        return "id"
+    }
     
     enum CodingKeys: String, CodingKey {
         case id
+        case login
         case avatarUrl = "avatar_url"
         case htmlUrl = "html_url"
         case type

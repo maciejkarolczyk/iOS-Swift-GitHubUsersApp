@@ -3,7 +3,7 @@ import UIKit
 import Alamofire
 
 protocol UserListControllerDelegate: class {
-  func userSelected(_ userSelected: UserDetails?)
+  func userSelected(_ userLogin: String?)
 }
 
 class UsersListController:UIViewController {
@@ -56,16 +56,11 @@ class UsersListController:UIViewController {
                 currentQuery = query
                 currentPage = 1
                 activityIndicator.startAnimating()
-                ServiceManager.requestUsers(query: query, { response in
+                ServiceManager.sharedInstance.requestUsers(query: query, { response in
                     self.dataSource = response
                     if let firstUser = self.dataSource?.users.first {
-                        //download details for first user
-                        ServiceManager.requestUserDetails(userName: firstUser.name, { response in
-                            self.delegate?.userSelected(response)
-                            self.stopActivityIndicator()
-                        }, failure: { errorResponse in
-                            Utils.displayAlert(errorResponse, vc: self)
-                        })
+                        self.delegate?.userSelected(firstUser.name)
+                        self.stopActivityIndicator()
                     } else {
                         self.delegate?.userSelected(nil)
                         self.stopActivityIndicator()
@@ -81,7 +76,7 @@ class UsersListController:UIViewController {
     }
     
     func loadMore() {
-        ServiceManager.requestUsers(query: currentQuery, page:currentPage + 1, { response in
+        ServiceManager.sharedInstance.requestUsers(query: currentQuery, page:currentPage + 1, { response in
             self.dataSource?.users.append(contentsOf: response.users)
         }, failure: { errorResponse in
             Utils.displayAlert(errorResponse.description, vc:self)
@@ -124,14 +119,10 @@ extension UsersListController:UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedUser = dataSource?.users[indexPath.row]
         if let detailsViewController = delegate as? DetailsViewController, let detailNavigationController = detailsViewController.navigationController {
-            ServiceManager.requestUserDetails(userName: selectedUser?.name, { response in
-                self.delegate?.userSelected(response)
-                DispatchQueue.main.async {
-                    self.splitViewController?.showDetailViewController(detailNavigationController, sender: nil)
-                }
-            }, failure: { errorResponse in
-                Utils.displayAlert(errorResponse, vc: self)
-            })
+            self.delegate?.userSelected(selectedUser?.name)
+            DispatchQueue.main.async {
+                self.splitViewController?.showDetailViewController(detailNavigationController, sender: nil)
+            }
         }
     }
 }

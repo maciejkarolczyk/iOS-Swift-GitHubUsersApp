@@ -3,33 +3,35 @@ import RealmSwift
 
 class DBManager {
     
-    private var database:Realm
     static let sharedInstance = DBManager()
     
-    private init() {
-        database = try! Realm()
+    private init() {}
+    
+    func saveObjectToRealm<T:Object>(_ realmObject:T) -> ThreadSafeReference<T>  {
+        let realm = try! Realm()
+        try! realm.write {
+            realm.add(realmObject, update: .modified)
+        }
+        let objectReference = ThreadSafeReference(to: realmObject)
+        return objectReference
     }
     
-    func getDataFromDB() -> Results<UserDetails> {
-        let results: Results<UserDetails> = database.objects(UserDetails.self)
-        return results
+    func getCachedUserDetails(userLogin:String) -> ThreadSafeReference<UserDetails>? {
+        let matchingUsersResult = self.getObjectsFromRealm(ofType: UserDetails.self, withFilter: "login LIKE '\(userLogin)'")
+        
+        if matchingUsersResult.count > 0 {
+            if let savedUser = matchingUsersResult.first {
+                let objectReference = ThreadSafeReference(to: savedUser)
+                return objectReference
+            }
+        }
+        return nil
     }
     
-    func addData(object: UserDetails) {
-        try! database.write {
-            
-            database.add(object, update:.modified)
-            print("Added new object")
-        }
-    }
-    func deleteAllFromDatabase() {
-        try!   database.write {
-            database.deleteAll()
-        }
-    }
-    func deleteFromDb(object: UserDetails) {
-        try!   database.write {
-            database.delete(object)
-        }
+    func getObjectsFromRealm<T:Object>(ofType: T.Type, withFilter: String) -> Results<T> {
+        let realm = try! Realm()
+        let resultObjects = realm.objects(T.self).filter(withFilter)
+
+        return resultObjects
     }
 }
