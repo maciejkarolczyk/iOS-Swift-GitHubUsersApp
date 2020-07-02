@@ -23,9 +23,7 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var userLogin:String? {
-        didSet {
-            self.getModel()
-        }
+        didSet {self.getModel()}
     }
     var dataModel:UserDetails?
     
@@ -69,9 +67,8 @@ class DetailsViewController: UIViewController {
             ServiceManager.sharedInstance.requestUserDetails(userName: userLogin, { reference in
                 DispatchQueue.main.async {
                     let realm = try! Realm()
-                    if let model = realm.resolve(reference) {
-                        self.refreshUI(dataModel: model)
-                    }
+                    guard let model = realm.resolve(reference) else {return}
+                    self.refreshUI(dataModel: model)
                 }
                 self.setLoadingView(isLoading: false, isWelcome: false)
             }, failure: { errorResponse in
@@ -84,21 +81,19 @@ class DetailsViewController: UIViewController {
     }
     
     func setLoadingView(isLoading:Bool, isWelcome:Bool) {
-        if let maskViewLabel = self.maskViewLabel {
-            DispatchQueue.main.async {
-                let hidden = (!isLoading && !isWelcome)
-                let hiddenSpinner = (!isLoading && isWelcome)
-                self.setMaskView(isHidden: hidden)
-                self.changeActivityIndicator(isHidden: hiddenSpinner)
-                maskViewLabel.text = isLoading ? "Loading" : "Search for gitHub Users from left panel"
-            }
+        guard let maskViewLabel = self.maskViewLabel else {return}
+        DispatchQueue.main.async {
+            let hidden = (!isLoading && !isWelcome)
+            let hiddenSpinner = (!isLoading && isWelcome)
+            self.setMaskView(isHidden: hidden)
+            self.changeActivityIndicator(isHidden: hiddenSpinner)
+            maskViewLabel.text = isLoading ? "Loading" : "Search for gitHub Users from left panel"
         }
     }
     
     func setMaskView(isHidden:Bool) {
-        if let welcomeView = self.maskView {
-            welcomeView.isHidden = isHidden
-        }
+        guard let welcomeView = self.maskView else {return}
+        welcomeView.isHidden = isHidden
     }
     
     func changeActivityIndicator(isHidden:Bool) {
