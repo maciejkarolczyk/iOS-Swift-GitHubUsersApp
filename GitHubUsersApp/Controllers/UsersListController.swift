@@ -40,6 +40,7 @@ class UsersListController:UIViewController {
         tableView.separatorStyle = .none
         activityIndicator.hidesWhenStopped = true
         configureSplitView()
+        self.hideKeyboardWhenTappedAround()
     }
     
     func configureSplitView() {
