@@ -21,13 +21,7 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var creationDateLabel: UILabel!
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    
-    var userLogin:String? {
-        didSet {self.getModel()}
-    }
-    var dataModel:UserDetails?
-    
-    
+
     override func viewDidLoad() {
         super .viewDidLoad()
         self.title = Strings.detailsViewTitle
@@ -62,23 +56,19 @@ class DetailsViewController: UIViewController {
         }
     }
     
-    private func getModel() {
+    private func getModel(_ userLogin:String) {
         setLoadingView(isLoading: true, isWelcome: false)
-        if let userLogin = self.userLogin {
-            ServiceManager.sharedInstance.requestUserDetails(userName: userLogin, { reference in
-                DispatchQueue.main.async {
-                    let realm = try! Realm()
-                    guard let model = realm.resolve(reference) else {return}
-                    self.refreshUI(dataModel: model)
-                }
-                self.setLoadingView(isLoading: false, isWelcome: false)
-            }, failure: { errorResponse in
-                self.setLoadingView(isLoading: false, isWelcome: true)
-                Utils.displayAlert(errorResponse, vc: self)
-            })
-        } else {
-            setLoadingView(isLoading: false, isWelcome: true)
-        }
+        ServiceManager.sharedInstance.requestUserDetails(userName: userLogin, { reference in
+            DispatchQueue.main.async {
+                let realm = try! Realm()
+                guard let model = realm.resolve(reference) else {return}
+                self.refreshUI(dataModel: model)
+            }
+            self.setLoadingView(isLoading: false, isWelcome: false)
+        }, failure: { errorResponse in
+            self.setLoadingView(isLoading: false, isWelcome: true)
+            Utils.displayAlert(errorResponse, vc: self)
+        })
     }
     
     func setLoadingView(isLoading:Bool, isWelcome:Bool) {
@@ -110,6 +100,7 @@ class DetailsViewController: UIViewController {
 
 extension DetailsViewController: UserListControllerDelegate {
     func userSelected(_ userLogin: String?) {
-        self.userLogin = userLogin
+        guard let userLogin = userLogin else {return}
+        getModel(userLogin)
     }
 }

@@ -289,10 +289,10 @@
                                 <viewLayoutGuide key="frameLayoutGuide" id="BsA-A4-VvS"/>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hHH-ue-2uG">
-                                <rect key="frame" x="0.0" y="44" width="487.5" height="349"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search for gitHub Users from left panel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ILt-0T-vqX">
-                                        <rect key="frame" x="94.5" y="129.5" width="299" height="20.5"/>
+                                        <rect key="frame" x="57.5" y="299.5" width="299" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -321,11 +321,6 @@
                             <constraint firstItem="hHH-ue-2uG" firstAttribute="leading" secondItem="JUH-36-sER" secondAttribute="leading" id="pEu-v4-1eO"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="JUH-36-sER"/>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="hHH-ue-2uG"/>
-                            </mask>
-                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="VU4-D7-25G"/>
                     <connections>
