@@ -74,10 +74,10 @@ class DetailsViewController: UIViewController {
     func setLoadingView(isLoading:Bool, isWelcome:Bool) {
         guard let maskViewLabel = self.maskViewLabel else {return}
         DispatchQueue.main.async {
-            let hidden = (!isLoading && !isWelcome)
-            let hiddenSpinner = (!isLoading && isWelcome)
-            self.setMaskView(isHidden: hidden)
-            self.changeActivityIndicator(isHidden: hiddenSpinner)
+            let shouldMaskBeHidden = (!isLoading && !isWelcome)
+            let shouldSpinnerBeHidden = (!isLoading && isWelcome)
+            self.setMaskView(isHidden: shouldMaskBeHidden)
+            self.setActivityIndicator(isHidden: shouldSpinnerBeHidden)
             maskViewLabel.text = isLoading ? Strings.loading : Strings.welcomeMessage
         }
     }
@@ -87,7 +87,7 @@ class DetailsViewController: UIViewController {
         welcomeView.isHidden = isHidden
     }
     
-    func changeActivityIndicator(isHidden:Bool) {
+    func setActivityIndicator(isHidden:Bool) {
         if let indicator = self.activityIndicator {
             if isHidden == true {
                 indicator.stopAnimating()
