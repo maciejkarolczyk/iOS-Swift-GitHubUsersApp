@@ -38,5 +38,32 @@
             type = "65535">
          </BreakpointContent>
       </BreakpointProxy>
+<<<<<<< Updated upstream
+=======
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
+         <BreakpointContent
+            uuid = "65C704EE-E246-484D-A3AC-6A725300AE03"
+            shouldBeEnabled = "No"
+            nameForDebugger = "constraints"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            symbolName = "UIViewAlertForUnsatisfiableConstraints"
+            moduleName = "">
+            <Locations>
+               <Location
+                  uuid = "65C704EE-E246-484D-A3AC-6A725300AE03 - ba3ad5676a792f38"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "UIViewAlertForUnsatisfiableConstraints"
+                  moduleName = "UIKitCore"
+                  usesParentBreakpointCondition = "Yes"
+                  offsetFromSymbolStart = "0">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+>>>>>>> Stashed changes
    </Breakpoints>
 </Bucket>
