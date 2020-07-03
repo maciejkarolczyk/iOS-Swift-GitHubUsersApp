@@ -48,22 +48,20 @@ class UsersListController:UIViewController {
     }
     
     @IBAction func onSearchButtonPressed(_ sender: Any) {
-        if let query = searchTextField.text {
-            if query.isAlphanumeric() {
-                currentQuery = query
-                currentPage = 1
-                activityIndicator.startAnimating()
-                ServiceManager.sharedInstance.requestUsers(query: query, { response in
-                    self.dataSource = response
-                    self.delegate?.userSelected(self.dataSource?.users.first?.name)
-                    self.stopActivityIndicator()
-                }, failure: { errorResponse in
-                    self.stopActivityIndicator()
-                    Utils.displayAlert(errorResponse.description, vc:self)
-                })
-            } else {
-                Utils.displayAlert("please insert valid userName or part of it", vc:self)
-            }
+        if let query = searchTextField.text, query.isAlphanumeric() {
+            currentQuery = query
+            currentPage = 1
+            activityIndicator.startAnimating()
+            ServiceManager.sharedInstance.requestUsers(query: query, { response in
+                self.dataSource = response
+                self.delegate?.userSelected(self.dataSource?.users.first?.name)
+                self.stopActivityIndicator()
+            }, failure: { errorResponse in
+                self.stopActivityIndicator()
+                Utils.displayAlert(errorResponse.description, vc:self)
+            })
+        } else {
+            Utils.displayAlert(Strings.noAlphanumeric, vc:self)
         }
     }
     

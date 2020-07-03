@@ -46,13 +46,9 @@ class ServiceManager {
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601
                 let queue = DispatchQueue(label: "usersDetailsQueue", qos: .background, attributes: .concurrent)
-                AF.request(Endpoints.getUsersDetailsEndpoint(userName: userName), method: .get).validate().responseDecodable(of:UserDetails.self, queue:queue, decoder:decoder) { response in
-                    if let error = response.error {
-                        if let data = response.data, let errorString = String(bytes: data, encoding: .utf8) {
-                            failure(errorString)
-                        } else {
-                            failure(error.localizedDescription)
-                        }
+                AF.request(Constants.getUsersDetailsEndpoint(userName: userName), method: .get).validate().responseDecodable(of:UserDetails.self, queue:queue, decoder:decoder) { response in
+                    if response.error != nil {
+                        self.handleDownloadError(response: response, failureBlock: failure)
                     }
                     guard let userDetails = response.value else { return }
                     
@@ -62,6 +58,15 @@ class ServiceManager {
             } else {
                 failure("not connected to internet and user is not cached")
             }
+        }
+    }
+    
+    func handleDownloadError<T:Object>(response: DataResponse<T, AFError>, failureBlock:(String) -> Void) {
+        guard let error = response.error else {return}
+        if let data = response.data, let errorString = String(bytes: data, encoding: .utf8) {
+            failureBlock(errorString)
+        } else {
+            failureBlock(error.localizedDescription)
         }
     }
 }
