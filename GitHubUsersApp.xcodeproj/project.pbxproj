@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		096FB7A424ADF8D60066858C /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096FB7A324ADF8D60066858C /* UIViewController+Extensions.swift */; };
 		09CCB29024A77C0000EF78EA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09CCB28F24A77C0000EF78EA /* AppDelegate.swift */; };
 		09CCB29224A77C0000EF78EA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09CCB29124A77C0000EF78EA /* SceneDelegate.swift */; };
 		09CCB29724A77C0000EF78EA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09CCB29524A77C0000EF78EA /* Main.storyboard */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		096FB7A324ADF8D60066858C /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		09CCB28C24A77C0000EF78EA /* GitHubUsersApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitHubUsersApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		09CCB28F24A77C0000EF78EA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		09CCB29124A77C0000EF78EA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 			children = (
 				09CCB2B624A9567600EF78EA /* Utils.swift */,
 				09CCB2BA24AA1ED100EF78EA /* String+Extensions.swift */,
+				096FB7A324ADF8D60066858C /* UIViewController+Extensions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 				09CCB29024A77C0000EF78EA /* AppDelegate.swift in Sources */,
 				09CCB2A624A7865C00EF78EA /* GitHubUserCell.swift in Sources */,
 				09CCB2B524A913C200EF78EA /* UserSplitViewController.swift in Sources */,
+				096FB7A424ADF8D60066858C /* UIViewController+Extensions.swift in Sources */,
 				09CCB2B924A9E8D500EF78EA /* InternetConnectionManager.swift in Sources */,
 				09CCB29224A77C0000EF78EA /* SceneDelegate.swift in Sources */,
 				09CCB2B724A9567600EF78EA /* Utils.swift in Sources */,

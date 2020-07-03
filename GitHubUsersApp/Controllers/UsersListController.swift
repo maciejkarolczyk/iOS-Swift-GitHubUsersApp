@@ -23,12 +23,9 @@ class UsersListController:UIViewController {
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
-                if self.dataSource?.count() ?? 0 > 0 {
-                    self.tableMaskView.isHidden = true
-                } else {
-                    self.tableMaskView.isHidden = false
-                    self.tableMaskViewLabel.text = "No users found for criteria"
-                }
+                guard let source = self.dataSource else {return}
+                self.tableMaskView.isHidden = source.count() > 0
+                self.tableMaskViewLabel.text = "No users found for criteria"
             }
         }
     }
@@ -40,14 +37,14 @@ class UsersListController:UIViewController {
         tableView.separatorStyle = .none
         activityIndicator.hidesWhenStopped = true
         configureSplitView()
+        self.hideKeyboardWhenTappedAround()
     }
     
     func configureSplitView() {
         splitViewController?.preferredPrimaryColumnWidthFraction = 0.5;
         let maxSize = splitViewController?.view.bounds.size.width
-        if let maxSize = maxSize {
-            splitViewController?.maximumPrimaryColumnWidth = maxSize;
-        }
+        guard let size = maxSize else {return}
+        splitViewController?.maximumPrimaryColumnWidth = size;
     }
     
     @IBAction func onSearchButtonPressed(_ sender: Any) {
@@ -58,13 +55,8 @@ class UsersListController:UIViewController {
                 activityIndicator.startAnimating()
                 ServiceManager.sharedInstance.requestUsers(query: query, { response in
                     self.dataSource = response
-                    if let firstUser = self.dataSource?.users.first {
-                        self.delegate?.userSelected(firstUser.name)
-                        self.stopActivityIndicator()
-                    } else {
-                        self.delegate?.userSelected(nil)
-                        self.stopActivityIndicator()
-                    }
+                    self.delegate?.userSelected(self.dataSource?.users.first?.name)
+                    self.stopActivityIndicator()
                 }, failure: { errorResponse in
                     self.stopActivityIndicator()
                     Utils.displayAlert(errorResponse.description, vc:self)
@@ -97,10 +89,9 @@ extension UsersListController:UITableViewDataSource {
         if let dataSourceForCell = dataSource?.users[indexPath.row] {
             cell.setupCell(dataModel:dataSourceForCell)
         }
-        if let usersCount = self.dataSource?.users.count {
-            if indexPath.row == usersCount - 1 {
-                self.loadMore()
-            }
+        let usersCount = self.dataSource?.users.count ?? 0
+        if indexPath.row == usersCount - 1 && usersCount > 29 {
+            self.loadMore()
         }
         return cell
     }
