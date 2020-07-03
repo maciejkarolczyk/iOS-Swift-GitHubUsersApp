@@ -8,16 +8,14 @@ class ServiceManager {
     
     private init() {}
     
-    func requestUsers(query:String?, page:Int = 1, _ completion: @escaping (UsersModel) -> Void, failure: @escaping (String) -> Void) {
+    func requestUsers(query:String, page:Int = 1, _ completion: @escaping (UsersModel) -> Void, failure: @escaping (String) -> Void) {
         //wrong practice. Apple discourages from checking connectivity before request. Instead, one should send the request and listen to error
         if InternetConnectionManager.isConnectedToNetwork() {
-            let parameters: [String:String?] = ["q" : query,
-                                                "per_page": "30",
-                                                "page":String(page)]
+            let parameters = Constants.getUsersRequestParametes(query:query,page: page)
             
             let queue = DispatchQueue(label: "usersQueue", qos: .background, attributes: .concurrent)
             
-            AF.request(Endpoints.getUsersEndpoint(), method: .get, parameters: parameters).validate().responseDecodable(of:UsersModel.self, queue:queue) { response in
+            AF.request(Constants.getUsersEndpoint(), method: .get, parameters: parameters).validate().responseDecodable(of:UsersModel.self, queue:queue) { response in
                 if let error = response.error {
                     if let data = response.data, let errorString = String(bytes: data, encoding: .utf8) {
                         failure(errorString)
@@ -29,7 +27,7 @@ class ServiceManager {
                 completion(users)
             }
         } else {
-            failure("not connected to internet")
+            failure(Strings.noInternet)
         }
     }
     
@@ -46,7 +44,7 @@ class ServiceManager {
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601
                 let queue = DispatchQueue(label: "usersDetailsQueue", qos: .background, attributes: .concurrent)
-                AF.request(Endpoints.getUsersDetailsEndpoint(userName: userName), method: .get).validate().responseDecodable(of:UserDetails.self, queue:queue, decoder:decoder) { response in
+                AF.request(Constants.getUsersDetailsEndpoint(userName: userName), method: .get).validate().responseDecodable(of:UserDetails.self, queue:queue, decoder:decoder) { response in
                     if let error = response.error {
                         if let data = response.data, let errorString = String(bytes: data, encoding: .utf8) {
                             failure(errorString)
@@ -60,7 +58,7 @@ class ServiceManager {
                     completion(threadSafeReference)
                 }
             } else {
-                failure("not connected to internet and user is not cached")
+                failure(Strings.noInternetAndCache)
             }
         }
     }

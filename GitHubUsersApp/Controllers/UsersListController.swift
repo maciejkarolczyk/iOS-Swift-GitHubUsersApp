@@ -17,6 +17,7 @@ class UsersListController:UIViewController {
     weak var delegate: UserListControllerDelegate?
     var currentPage: Int = 1
     var currentQuery: String?
+    let cellIdentifier = "GitHubUserCell"
     
     
     var dataSource: UsersModel? {
@@ -25,7 +26,7 @@ class UsersListController:UIViewController {
                 self.tableView.reloadData()
                 guard let source = self.dataSource else {return}
                 self.tableMaskView.isHidden = source.count() > 0
-                self.tableMaskViewLabel.text = "No users found for criteria"
+                self.tableMaskViewLabel.text = Strings.noUsers
             }
         }
     }
@@ -38,10 +39,11 @@ class UsersListController:UIViewController {
         activityIndicator.hidesWhenStopped = true
         configureSplitView()
         self.hideKeyboardWhenTappedAround()
+        self.title = Strings.mainViewTitle
     }
     
     func configureSplitView() {
-        splitViewController?.preferredPrimaryColumnWidthFraction = 0.5;
+        splitViewController?.preferredPrimaryColumnWidthFraction = CGFloat(Constants.preferredPrimaryColumnWidthFraction);
         let maxSize = splitViewController?.view.bounds.size.width
         guard let size = maxSize else {return}
         splitViewController?.maximumPrimaryColumnWidth = size;
@@ -62,12 +64,13 @@ class UsersListController:UIViewController {
                     Utils.displayAlert(errorResponse.description, vc:self)
                 })
             } else {
-                Utils.displayAlert("please insert valid userName or part of it", vc:self)
+                Utils.displayAlert(Strings.noAlphanumeric, vc:self)
             }
         }
     }
     
     func loadMore() {
+        guard let currentQuery = self.currentQuery else {return}
         ServiceManager.sharedInstance.requestUsers(query: currentQuery, page:currentPage + 1, { response in
             self.dataSource?.users.append(contentsOf: response.users)
         }, failure: { errorResponse in
@@ -85,12 +88,12 @@ class UsersListController:UIViewController {
 
 extension UsersListController:UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "GitHubUserCell") as! GitHubUserCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! GitHubUserCell
         if let dataSourceForCell = dataSource?.users[indexPath.row] {
             cell.setupCell(dataModel:dataSourceForCell)
         }
         let usersCount = self.dataSource?.users.count ?? 0
-        if indexPath.row == usersCount - 1 && usersCount > 29 {
+        if indexPath.row == usersCount - 1 && usersCount > Constants.usersPerRequestAmount - 1 {
             self.loadMore()
         }
         return cell

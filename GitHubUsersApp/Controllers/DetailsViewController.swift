@@ -30,33 +30,34 @@ class DetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super .viewDidLoad()
-        self.title = "gitHub User Details"
+        self.title = Strings.detailsViewTitle
         activityIndicator.hidesWhenStopped = true
     }
     
     func refreshUI(dataModel:UserDetails) {
         DispatchQueue.main.async {
             self.loadViewIfNeeded()
+            let notProvided = Strings.notProvided
             if let avatarURL = dataModel.avatarUrl {
                 self.avatarImageView.kf.setImage(with: URL(string: avatarURL))
             } else {
                 self.avatarImageView.image = UIImage(named: "noimage")
             }
-            self.userNameLabel.text = (dataModel.name != nil) ? dataModel.name : "<Not Provided>"
+            self.userNameLabel.text = (dataModel.name != nil) ? dataModel.name : notProvided
             self.idLabel.text = String(dataModel.id)
-            self.webPageLabel.text = (dataModel.htmlUrl != nil) ? dataModel.htmlUrl : "<Not Provided>"
-            self.companyLabel.text = (dataModel.company != nil) ? dataModel.company : "<Not Provided>"
-            self.locationLabel.text = (dataModel.location != nil) ? dataModel.location : "<Not Provided>"
-            self.emailLabel.text = (dataModel.email != nil) ? dataModel.email : "<Not Provided>"
+            self.webPageLabel.text = (dataModel.htmlUrl != nil) ? dataModel.htmlUrl : notProvided
+            self.companyLabel.text = (dataModel.company != nil) ? dataModel.company : notProvided
+            self.locationLabel.text = (dataModel.location != nil) ? dataModel.location : notProvided
+            self.emailLabel.text = (dataModel.email != nil) ? dataModel.email : notProvided
             self.repositoriesLabel.text = String(dataModel.publicReposCount)
             self.followersLabel.text = String(dataModel.followersCount)
             
             if let creationDate = dataModel.creationDate {
                 let df = DateFormatter()
-                df.dateFormat = "yyyy-MM-dd hh:mm:ss"
+                df.dateFormat = Constants.apiDateFormat
                 self.creationDateLabel.text = df.string(from: creationDate)
             } else {
-                self.creationDateLabel.text = "<Not Provided>"
+                self.creationDateLabel.text = notProvided
             }
         }
     }
@@ -87,7 +88,7 @@ class DetailsViewController: UIViewController {
             let hiddenSpinner = (!isLoading && isWelcome)
             self.setMaskView(isHidden: hidden)
             self.changeActivityIndicator(isHidden: hiddenSpinner)
-            maskViewLabel.text = isLoading ? "Loading" : "Search for gitHub Users from left panel"
+            maskViewLabel.text = isLoading ? Strings.loading : Strings.welcomeMessage
         }
     }
     
