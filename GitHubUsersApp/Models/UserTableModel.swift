@@ -1,8 +1,21 @@
 import Foundation
+import RealmSwift
 
 
-struct UsersModel:Decodable {
-    var users: [UserTableModel]
+class UsersModel:Object, Decodable {
+    var users = List<UserTableModel>()
+    @objc dynamic var queryUsed: String = ""
+    
+    required convenience init(from decoder: Decoder) throws {
+        self.init()
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let subModels = try container.decode([UserTableModel].self, forKey: .users)
+        users.append(objectsIn: subModels)
+    }
+    
+    override static func primaryKey() -> String? {
+        return "queryUsed"
+    }
     
     enum CodingKeys: String, CodingKey {
         case users = "items"
@@ -13,10 +26,14 @@ struct UsersModel:Decodable {
     }
 }
 
-struct UserTableModel:Decodable {
-    let name: String
-    let score: Int
-    let avatarUrl : String
+class UserTableModel:Object, Decodable {
+    @objc dynamic var name: String = ""
+    @objc dynamic var score: Int = 0
+    @objc dynamic var avatarUrl : String = ""
+    
+    override static func primaryKey() -> String? {
+        return "name"
+    }
     
     enum CodingKeys: String, CodingKey {
         case name = "login"

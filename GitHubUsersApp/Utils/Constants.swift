@@ -41,5 +41,5 @@ struct Strings {
     static let noUsers = "No users found for criteria"
     static let notProvided = "<Not Provided>"
     static let loading = "Loading"
-    static let welcomeMessage = "Search for gitHub Users from left panel"
+    static let errorMessage = "Problem with downloading details"
 }
