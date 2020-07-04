@@ -96,6 +96,7 @@ class UsersListController:UIViewController {
             ServiceManager.sharedInstance.downloadMoreUsers(query: currentQuery, page: currentPage,
                                                             failure: { errorResponse in
                                                                 Utils.displayAlert(errorResponse.description, vc:self)
+                                                                self.setActivityIndicator(false)
             })
         }
     }
