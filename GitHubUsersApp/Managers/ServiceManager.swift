@@ -8,7 +8,14 @@ class ServiceManager {
     
     private init() {}
     
-    func requestUsers(query:String, page:Int = 1, _ completion: @escaping (UsersModel) -> Void, failure: @escaping (String) -> Void) {
+    func requestUsersAfterSearch(query:String, page:Int = 1, _ completion: @escaping (ThreadSafeReference<UsersModel>) -> Void, failure: @escaping (String) -> Void) {
+        
+        //check if user exist in realm
+            if let cachedModel = DBManager.sharedInstance.getCachedUsersModel(queryUsed: query) {
+                completion(cachedModel)
+                return
+        }
+        
         //wrong practice. Apple discourages from checking connectivity before request. Instead, one should send the request and listen to error
         if InternetConnectionManager.isConnectedToNetwork() {
             let parameters = Constants.getUsersRequestParametes(query:query,page: page)
@@ -16,15 +23,13 @@ class ServiceManager {
             let queue = DispatchQueue(label: "usersQueue", qos: .background, attributes: .concurrent)
             
             AF.request(Constants.getUsersEndpoint(), method: .get, parameters: parameters).validate().responseDecodable(of:UsersModel.self, queue:queue) { response in
-                if let error = response.error {
-                    if let data = response.data, let errorString = String(bytes: data, encoding: .utf8) {
-                        failure(errorString)
-                    } else {
-                        failure(error.localizedDescription)
-                    }
+                if response.error != nil {
+                    self.handleDownloadError(response: response, failureBlock: failure)
                 }
                 guard let users = response.value else { return }
-                completion(users)
+                users.queryUsed = query
+                let threadSafeReference = DBManager.sharedInstance.saveObjectToRealm(users)
+                completion(threadSafeReference)
             }
         } else {
             failure(Strings.noInternet)
@@ -56,6 +61,27 @@ class ServiceManager {
             } else {
                 failure(Strings.noInternetAndCache)
             }
+        }
+    }
+    
+    func downloadMoreUsers(query:String, page:Int = 1, failure: @escaping (String) -> Void) {
+        
+        //wrong practice. Apple discourages from checking connectivity before request. Instead, one should send the request and listen to error
+        if InternetConnectionManager.isConnectedToNetwork() {
+            let parameters = Constants.getUsersRequestParametes(query:query,page: page)
+            
+            let queue = DispatchQueue(label: "usersQueue", qos: .background, attributes: .concurrent)
+            
+            AF.request(Constants.getUsersEndpoint(), method: .get, parameters: parameters).validate().responseDecodable(of:UsersModel.self, queue:queue) { response in
+                if response.error != nil {
+                    self.handleDownloadError(response: response, failureBlock: failure)
+                }
+                guard let users = response.value else { return }
+                users.queryUsed = query
+                DBManager.sharedInstance.appendToRealmModel(users)
+            }
+        } else {
+            failure(Strings.noInternet)
         }
     }
     

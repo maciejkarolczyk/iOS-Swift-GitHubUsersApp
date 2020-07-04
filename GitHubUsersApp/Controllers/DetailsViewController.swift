@@ -57,28 +57,28 @@ class DetailsViewController: UIViewController {
     }
     
     private func getModel(_ userLogin:String) {
-        setLoadingView(isLoading: true, isWelcome: false)
+        setLoadingView(isLoading: true, isError: false)
         ServiceManager.sharedInstance.requestUserDetails(userName: userLogin, { reference in
             DispatchQueue.main.async {
                 let realm = try! Realm()
                 guard let model = realm.resolve(reference) else {return}
                 self.refreshUI(dataModel: model)
             }
-            self.setLoadingView(isLoading: false, isWelcome: false)
+            self.setLoadingView(isLoading: false, isError: false)
         }, failure: { errorResponse in
-            self.setLoadingView(isLoading: false, isWelcome: true)
-            Utils.displayAlert(errorResponse, vc: self)
+            self.setLoadingView(isLoading: false, isError: true)
         })
     }
     
-    func setLoadingView(isLoading:Bool, isWelcome:Bool) {
+    func setLoadingView(isLoading:Bool, isError:Bool) {
         guard let maskViewLabel = self.maskViewLabel else {return}
         DispatchQueue.main.async {
-            let shouldMaskBeHidden = (!isLoading && !isWelcome)
-            let shouldSpinnerBeHidden = (!isLoading && isWelcome)
+            self.loadViewIfNeeded()
+            let shouldMaskBeHidden = (!isLoading && !isError)
+            let shouldSpinnerBeHidden = (!isLoading && isError)
             self.setMaskView(isHidden: shouldMaskBeHidden)
             self.setActivityIndicator(isHidden: shouldSpinnerBeHidden)
-            maskViewLabel.text = isLoading ? Strings.loading : Strings.welcomeMessage
+            maskViewLabel.text = isLoading ? Strings.loading : Strings.errorMessage
         }
     }
     

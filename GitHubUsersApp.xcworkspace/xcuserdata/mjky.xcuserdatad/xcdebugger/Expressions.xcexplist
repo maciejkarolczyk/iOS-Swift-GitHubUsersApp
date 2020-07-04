@@ -3,7 +3,36 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "closure #1 in static ConnectionManager.requestUserDetails(userName:_:failure:):ConnectionManager.swift">
+         contextName = "UsersListController.scrollViewDidScroll(_:):UsersListController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "fetchnigMore">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DecodableResponseSerializer.serialize(request:response:data:error:):ResponseSerialization.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "usersCount">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "UsersListController.onSearchButtonPressed(_:):UsersListController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "currentPage">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DBManager.appendToRealmModel(_:):DBManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "object.name">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "UserSplitViewController.splitViewController(_:collapseSecondary:onto:):UserSplitViewController.swift">
@@ -14,6 +43,20 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #1 in UsersListController.dataSource.didset:UsersListController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.dataSource?.users.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in static ConnectionManager.requestUsers(query:_:failure:):ConnectionManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in static ConnectionManager.requestUserDetails(userName:_:failure:):ConnectionManager.swift">
+      </ContextState>
+      <ContextState
          contextName = "UserSplitViewController.awakeFromNib():UserSplitViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -22,10 +65,51 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in static ConnectionManager.requestUsers(query:_:failure:):ConnectionManager.swift">
+         contextName = "UsersListController.loadMore():UsersListController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Constants.usersPerRequestAmount">
+            </PersistentString>
+            <PersistentString
+               value = "dataSource?.users.count">
+            </PersistentString>
+            <PersistentString
+               value = "dataSource?.users.coun">
+            </PersistentString>
+            <PersistentString
+               value = "currentPage">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in DBManager.appendToRealmModel(_:):DBManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "object.name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in UsersListController.viewDidLoad():UsersListController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "model?.users.count">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "UsersListController.tableView(_:numberOfRowsInSection:):UsersListController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ServiceManager.requestUsers(query:page:ignoreCache:_:failure:):ServiceManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "UsersListController.tableView(_:cellForRowAt:):UsersListController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "indexPath.row">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
    </ContextStates>
 </VariablesViewState>

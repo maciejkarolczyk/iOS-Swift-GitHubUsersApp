@@ -289,36 +289,37 @@
                                 <viewLayoutGuide key="frameLayoutGuide" id="BsA-A4-VvS"/>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hHH-ue-2uG">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="d4d-ZR-ayS">
+                                        <rect key="frame" x="197" y="438" width="20" height="20"/>
+                                    </activityIndicatorView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search for gitHub Users from left panel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ILt-0T-vqX">
-                                        <rect key="frame" x="57.5" y="299.5" width="299" height="20.5"/>
+                                        <rect key="frame" x="57.5" y="387.5" width="299" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="d4d-ZR-ayS">
-                                        <rect key="frame" x="197" y="377" width="20" height="20"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </activityIndicatorView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstItem="ILt-0T-vqX" firstAttribute="centerX" secondItem="hHH-ue-2uG" secondAttribute="centerX" id="SE3-Af-tJ0"/>
-                                    <constraint firstItem="ILt-0T-vqX" firstAttribute="centerY" secondItem="hHH-ue-2uG" secondAttribute="centerY" multiplier="0.8" id="dr8-lw-aIf"/>
+                                    <constraint firstItem="ILt-0T-vqX" firstAttribute="centerX" secondItem="hHH-ue-2uG" secondAttribute="centerX" id="Bee-8r-1EQ"/>
+                                    <constraint firstItem="d4d-ZR-ayS" firstAttribute="centerY" secondItem="hHH-ue-2uG" secondAttribute="centerY" id="H0o-TQ-NFV"/>
+                                    <constraint firstItem="d4d-ZR-ayS" firstAttribute="top" secondItem="ILt-0T-vqX" secondAttribute="bottom" constant="30" id="dS6-4S-kIr"/>
+                                    <constraint firstItem="d4d-ZR-ayS" firstAttribute="centerX" secondItem="hHH-ue-2uG" secondAttribute="centerX" id="xvJ-dK-uYC"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="DJi-Ah-wnB" secondAttribute="bottom" id="6ew-Ap-oSx"/>
-                            <constraint firstItem="JUH-36-sER" firstAttribute="bottom" secondItem="hHH-ue-2uG" secondAttribute="bottom" id="77s-q4-1GD"/>
-                            <constraint firstItem="JUH-36-sER" firstAttribute="trailing" secondItem="hHH-ue-2uG" secondAttribute="trailing" id="8F8-bx-ljO"/>
-                            <constraint firstItem="hHH-ue-2uG" firstAttribute="top" secondItem="JUH-36-sER" secondAttribute="top" id="Cb5-Cg-VXx"/>
+                            <constraint firstAttribute="trailing" secondItem="hHH-ue-2uG" secondAttribute="trailing" id="Ajt-UP-i0U"/>
                             <constraint firstItem="DJi-Ah-wnB" firstAttribute="leading" secondItem="7Np-yV-ghI" secondAttribute="leading" id="VPq-sr-aam"/>
                             <constraint firstItem="DJi-Ah-wnB" firstAttribute="top" secondItem="JUH-36-sER" secondAttribute="top" id="XFv-Cf-Mx8"/>
+                            <constraint firstAttribute="bottom" secondItem="hHH-ue-2uG" secondAttribute="bottom" id="d6W-ms-dKd"/>
                             <constraint firstAttribute="trailing" secondItem="DJi-Ah-wnB" secondAttribute="trailing" id="hlz-Tb-dxn"/>
-                            <constraint firstItem="hHH-ue-2uG" firstAttribute="leading" secondItem="JUH-36-sER" secondAttribute="leading" id="pEu-v4-1eO"/>
+                            <constraint firstItem="hHH-ue-2uG" firstAttribute="top" secondItem="7Np-yV-ghI" secondAttribute="top" id="jWS-6V-npX"/>
+                            <constraint firstItem="hHH-ue-2uG" firstAttribute="leading" secondItem="7Np-yV-ghI" secondAttribute="leading" id="t7k-TC-58g"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="JUH-36-sER"/>
                     </view>

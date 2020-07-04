@@ -1,9 +1,10 @@
 import Foundation
 import UIKit
 import Alamofire
+import RealmSwift
 
 protocol UserListControllerDelegate: class {
-  func userSelected(_ userLogin: String?)
+    func userSelected(_ userLogin: String?)
 }
 
 class UsersListController:UIViewController {
@@ -18,7 +19,7 @@ class UsersListController:UIViewController {
     var currentPage: Int = 1
     var currentQuery: String?
     let cellIdentifier = "GitHubUserCell"
-    
+    var notificationToken: NotificationToken?
     
     var dataSource: UsersModel? {
         didSet {
@@ -36,10 +37,25 @@ class UsersListController:UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator = false
         activityIndicator.hidesWhenStopped = true
         configureSplitView()
         self.hideKeyboardWhenTappedAround()
         self.title = Strings.mainViewTitle
+        let realm = try! Realm()
+        notificationToken = realm.observe { [unowned self] note, realm in
+            if self.currentQuery != nil {
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        notificationToken?.invalidate()
     }
     
     func configureSplitView() {
@@ -54,9 +70,12 @@ class UsersListController:UIViewController {
             currentQuery = query
             currentPage = 1
             activityIndicator.startAnimating()
-            ServiceManager.sharedInstance.requestUsers(query: query, { response in
-                self.dataSource = response
-                self.delegate?.userSelected(self.dataSource?.users.first?.name)
+            ServiceManager.sharedInstance.requestUsersAfterSearch(query: query, { reference in
+                DispatchQueue.main.async {
+                    guard let model = DBManager.sharedInstance.resolveThreadSafeReference(reference:reference) else {return}
+                    self.dataSource = model
+                    self.delegate?.userSelected(self.dataSource?.users.first?.name)
+                }
                 self.stopActivityIndicator()
             }, failure: { errorResponse in
                 self.stopActivityIndicator()
@@ -69,10 +88,10 @@ class UsersListController:UIViewController {
     
     func loadMore() {
         guard let currentQuery = self.currentQuery else {return}
-        ServiceManager.sharedInstance.requestUsers(query: currentQuery, page:currentPage + 1, { response in
-            self.dataSource?.users.append(contentsOf: response.users)
-        }, failure: { errorResponse in
-            Utils.displayAlert(errorResponse.description, vc:self)
+        currentPage = (dataSource?.users.count ?? Constants.usersPerRequestAmount) / Constants.usersPerRequestAmount + 1
+        ServiceManager.sharedInstance.downloadMoreUsers(query: currentQuery, page: currentPage,
+                                                        failure: { errorResponse in
+                                                            Utils.displayAlert(errorResponse.description, vc:self)
         })
     }
     
@@ -81,7 +100,6 @@ class UsersListController:UIViewController {
             self.activityIndicator.stopAnimating()
         }
     }
-
 }
 
 extension UsersListController:UITableViewDataSource {
@@ -89,10 +107,6 @@ extension UsersListController:UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! GitHubUserCell
         if let dataSourceForCell = dataSource?.users[indexPath.row] {
             cell.setupCell(dataModel:dataSourceForCell)
-        }
-        let usersCount = self.dataSource?.users.count ?? 0
-        if indexPath.row == usersCount - 1 && usersCount > Constants.usersPerRequestAmount - 1 {
-            self.loadMore()
         }
         return cell
     }
@@ -103,10 +117,17 @@ extension UsersListController:UITableViewDataSource {
         }
         return dataSource.count();
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let dataSource = self.dataSource else {return}
+        let almostLastElement = dataSource.users.count - 1
+        if indexPath.row == almostLastElement {
+            loadMore()
+        }
+    }
 }
 
 extension UsersListController:UITableViewDelegate {
-    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedUser = dataSource?.users[indexPath.row]
