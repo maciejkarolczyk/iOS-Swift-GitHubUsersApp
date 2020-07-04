@@ -28,6 +28,7 @@ class UsersListController:UIViewController {
                 guard let source = self.dataSource else {return}
                 self.tableMaskView.isHidden = source.count() > 0
                 self.tableMaskViewLabel.text = Strings.noUsers
+                self.setActivityIndicator(false)
             }
         }
     }
@@ -38,6 +39,7 @@ class UsersListController:UIViewController {
         tableView.delegate = self
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
+        tableView.bounces = false
         activityIndicator.hidesWhenStopped = true
         configureSplitView()
         self.hideKeyboardWhenTappedAround()
@@ -47,6 +49,7 @@ class UsersListController:UIViewController {
             if self.currentQuery != nil {
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
+                    self.setActivityIndicator(false)
                 }
             }
         }
@@ -67,18 +70,18 @@ class UsersListController:UIViewController {
     
     @IBAction func onSearchButtonPressed(_ sender: Any) {
         if let query = searchTextField.text, query.isAlphanumeric() {
+            self.setActivityIndicator(true)
             currentQuery = query
             currentPage = 1
-            activityIndicator.startAnimating()
             ServiceManager.sharedInstance.requestUsersAfterSearch(query: query, { reference in
                 DispatchQueue.main.async {
                     guard let model = DBManager.sharedInstance.resolveThreadSafeReference(reference:reference) else {return}
                     self.dataSource = model
                     self.delegate?.userSelected(self.dataSource?.users.first?.name)
                 }
-                self.stopActivityIndicator()
+                self.setActivityIndicator(false)
             }, failure: { errorResponse in
-                self.stopActivityIndicator()
+                self.setActivityIndicator(false)
                 Utils.displayAlert(errorResponse.description, vc:self)
             })
         } else {
@@ -88,16 +91,22 @@ class UsersListController:UIViewController {
     
     func loadMore() {
         guard let currentQuery = self.currentQuery else {return}
-        currentPage = (dataSource?.users.count ?? Constants.usersPerRequestAmount) / Constants.usersPerRequestAmount + 1
-        ServiceManager.sharedInstance.downloadMoreUsers(query: currentQuery, page: currentPage,
-                                                        failure: { errorResponse in
-                                                            Utils.displayAlert(errorResponse.description, vc:self)
-        })
+        if InternetConnectionManager.isConnectedToNetwork() {
+            currentPage = currentPage + 1
+            ServiceManager.sharedInstance.downloadMoreUsers(query: currentQuery, page: currentPage,
+                                                            failure: { errorResponse in
+                                                                Utils.displayAlert(errorResponse.description, vc:self)
+            })
+        }
     }
     
-    func stopActivityIndicator() {
+    func setActivityIndicator(_ shouldAnimate:Bool) {
         DispatchQueue.main.async {
-            self.activityIndicator.stopAnimating()
+            if shouldAnimate {
+                self.activityIndicator.startAnimating()
+            } else {
+                self.activityIndicator.stopAnimating()
+            }
         }
     }
 }
@@ -120,8 +129,9 @@ extension UsersListController:UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let dataSource = self.dataSource else {return}
-        let almostLastElement = dataSource.users.count - 1
-        if indexPath.row == almostLastElement {
+        let lastElement = dataSource.users.count - 1
+        if indexPath.row == lastElement {
+            self.setActivityIndicator(true)
             loadMore()
         }
     }

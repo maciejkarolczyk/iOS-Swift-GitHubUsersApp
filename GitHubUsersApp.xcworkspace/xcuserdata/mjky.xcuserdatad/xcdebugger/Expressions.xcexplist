@@ -90,6 +90,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #1 in ServiceManager.downloadMoreUsers(query:page:failure:):ServiceManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "page">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in closure #1 in UsersListController.viewDidLoad():UsersListController.swift">
          <PersistentStrings>
             <PersistentString
