@@ -96,8 +96,7 @@ class UsersListController:UIViewController {
             ServiceManager.sharedInstance.downloadMoreUsers(query: currentQuery, page: currentPage + 1,
                                                             completion: {
                                                                 self.setActivityIndicator(false)
-                                                                self.currentPage = self.currentPage + 1
-            },
+                                                                self.currentPage = self.currentPage + 1},
                                                             failure: { errorResponse in
                                                                 Utils.displayAlert(errorResponse.description, vc:self)
                                                                 self.setActivityIndicator(false)
