@@ -19,18 +19,18 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "UsersListController.onSearchButtonPressed(_:):UsersListController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "currentPage">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "DBManager.appendToRealmModel(_:):DBManager.swift">
          <PersistentStrings>
             <PersistentString
                value = "object.name">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "UsersListController.onSearchButtonPressed(_:):UsersListController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "currentPage">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -61,6 +61,17 @@
          <PersistentStrings>
             <PersistentString
                value = "self.isCollapsed">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "UsersListController.tableView(_:willDisplay:forRowAt:):UsersListController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "indexPath.row">
+            </PersistentString>
+            <PersistentString
+               value = "dataSource.users.count">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

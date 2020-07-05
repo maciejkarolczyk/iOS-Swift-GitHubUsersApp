@@ -92,10 +92,12 @@ class UsersListController:UIViewController {
     func loadMore() {
         guard let currentQuery = self.currentQuery else {return}
         if InternetConnectionManager.isConnectedToNetwork() {
-            currentPage = currentPage + 1
             self.setActivityIndicator(true)
-            ServiceManager.sharedInstance.downloadMoreUsers(query: currentQuery, page: currentPage,
-                                                            completion: {self.setActivityIndicator(false)},
+            ServiceManager.sharedInstance.downloadMoreUsers(query: currentQuery, page: currentPage + 1,
+                                                            completion: {
+                                                                self.setActivityIndicator(false)
+                                                                self.currentPage = self.currentPage + 1
+            },
                                                             failure: { errorResponse in
                                                                 Utils.displayAlert(errorResponse.description, vc:self)
                                                                 self.setActivityIndicator(false)
@@ -133,7 +135,7 @@ extension UsersListController:UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let dataSource = self.dataSource else {return}
         let lastElement = dataSource.users.count - 1
-        if indexPath.row == lastElement {
+        if indexPath.row == lastElement && dataSource.users.count >= Constants.usersPerRequestAmount {
             loadMore()
         }
     }
