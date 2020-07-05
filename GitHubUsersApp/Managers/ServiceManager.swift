@@ -62,7 +62,7 @@ class ServiceManager {
         }
     }
     
-    func downloadMoreUsers(query:String, page:Int = 1, failure: @escaping (String) -> Void) {
+    func downloadMoreUsers(query:String, page:Int = 1, completion: @escaping () -> Void, failure: @escaping (String) -> Void) {
         
         //wrong practice. Apple discourages from checking connectivity before request. Instead, one should send the request and listen to error
         let parameters = Constants.getUsersRequestParametes(query:query,page: page)
@@ -76,6 +76,7 @@ class ServiceManager {
             guard let users = response.value else { return }
             users.queryUsed = query
             DBManager.sharedInstance.appendToRealmModel(users)
+            completion()
         }
     }
     
